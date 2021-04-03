@@ -1,0 +1,42 @@
+<!--INSTAGRAM code -->
+<div class="instagram clearfix">
+<div class="heading_obj">
+  <h3 class="text-uppercase">{{heading_title}}</h3>
+</div>
+<div id="instagram_feed"  class="owl-carousel pull-left">
+{% for post in result.data %}
+    <div class="product-layout item">
+        <div class="product-block">
+        <div class="product-block-inner">
+    <a class="instagram-unit" target="_blank" href="{{ post.link}}">
+    <img src="{{ post.images.low_resolution.url}}"  alt="{{ post.caption.text}}"/></a>
+    </div></div></div>
+{% endfor %}
+</div>
+</div><!--clearfix-->
+<!--End of INSTAGRAM code -->
+<script type="text/javascript" >
+$( document ).ready(function() {
+  var instagram= $('#instagram_feed');
+  var amountHeaderImages = instagram.find('img').length;
+  instagram.owlCarousel({
+    // loop:true,
+    nav:true,
+    margin:15,
+    responsiveClass:true,
+    responsive:{
+        0:{
+            items:1,
+            loop: (amountHeaderImages > 1), // if only 1 item no loop
+        },
+        600:{
+            items:3,
+            loop: (amountHeaderImages > 3), // if only 1 item no loop
+        },
+        1000:{
+            items:4,
+            loop: (amountHeaderImages > 4),// if only 1 item no loop
+        }
+    }
+});});
+</script>

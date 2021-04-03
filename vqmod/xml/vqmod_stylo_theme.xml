@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>VQMOD CORE FOR OPENCART - DO NOT REMOVE</id>
+    <version>1.4.x and above</version>
+    <vqmver required="true">2.6.0</vqmver>
+    <author>vqmod.com</author>
+	
+	<file name="catalog/model/catalog/category.php">
+		<operation error="skip">
+ 
+			<search position="before"><![CDATA[public function getTotalCategoriesByCategoryId($parent_id = 0) {]]></search>
+			<add><![CDATA[
+				public function getHorizondalCategory($category_id) {
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE c.category_id = '" . (int)$category_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'");
+
+		return $query->row;
+	}
+				]]></add>
+		</operation>
+	</file>	
+
+	<file name="catalog/model/catalog/manufacturer.php">
+		<operation error="skip">
+ 
+			<search position="before"><![CDATA[public function getManufacturers($data = array()) {]]></search>
+			<add><![CDATA[
+				public function getManufacturersByOrder() {
+		
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "manufacturer_to_store m2s ON (m.manufacturer_id = m2s.manufacturer_id) WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY m.manufacturer_id DESC");
+			return $query->rows;
+	}
+				]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/language/en-gb/en-gb.php">
+		<operation error="skip">
+			<search position="after"><![CDATA[$_['tab_server']                    = 'Server';]]></search>
+			<add><![CDATA[
+				$_['tab_social']                    = 'Social Medias';
+				]]></add>
+		</operation>
+	</file>
+	<file name="admin/language/en-gb/setting/setting.php">
+		<operation error="skip">
+			<search position="after"><![CDATA[$_['entry_status']                   = 'Status';]]></search>
+			<add><![CDATA[
+				$_['entry_social_links']             = 'Social Media Links';
+				$_['entry_facebook']                 = 'Facebook Link:';
+				$_['entry_twitter']                  = 'Twitter Link:';
+				$_['entry_gplus']                    = 'Google+ Link:';
+				$_['entry_linkedin']                 = 'Linkedin Link:';
+				$_['entry_pinterest']                = 'Pinterest Link:';
+				$_['entry_instagram']                = 'Instagram Link:';
+				$_['entry_youtube']                  = 'Youtube Link:';
+				$_['entry_social_url']               = 'Please Enter the URL';
+				$_['entry_arabic_address']               = 'Arabic Address';
+				$_['entry_arabic_email']               = 'Arabic E-mail';
+				]]></add>
+		</operation>
+	</file>
+	<file name="admin/controller/setting/setting.php">
+		<operation error="skip">
+			<search position="before"><![CDATA[if (isset($this->request->post['config_name'])) {]]></search>
+			<add><![CDATA[
+				if (isset($this->request->post['config_facebook'])) {
+			$data['facebook'] = $this->request->post['config_facebook'];
+		} else {
+			$data['facebook'] = $this->config->get('config_facebook');
+		}
+
+		if (isset($this->request->post['config_twitter'])) {
+			$data['twitter'] = $this->request->post['config_twitter'];
+		} else {
+			$data['twitter'] = $this->config->get('config_twitter');
+		}
+
+		if (isset($this->request->post['config_gplus'])) {
+			$data['gplus'] = $this->request->post['config_gplus'];
+		} else {
+			$data['gplus'] = $this->config->get('config_gplus');
+		}
+
+		if (isset($this->request->post['config_linkedin'])) {
+			$data['linkedin'] = $this->request->post['config_linkedin'];
+		} else {
+			$data['linkedin'] = $this->config->get('config_linkedin');
+		}
+
+		if (isset($this->request->post['config_pinterest'])) {
+			$data['pinterest'] = $this->request->post['config_pinterest'];
+		} else {
+			$data['pinterest'] = $this->config->get('config_pinterest');
+		}
+
+		if (isset($this->request->post['config_instagram'])) {
+			$data['instagram'] = $this->request->post['config_instagram'];
+		} else {
+			$data['instagram'] = $this->config->get('config_instagram');
+		}
+
+		if (isset($this->request->post['config_youtube'])) {
+			$data['youtube'] = $this->request->post['config_youtube'];
+		} else {
+			$data['youtube'] = $this->config->get('config_youtube');
+		}
+		if (isset($this->request->post['config_arabic_address'])) {
+			$data['config_arabic_address'] = $this->request->post['config_arabic_address'];
+		} else {
+			$data['config_arabic_address'] = $this->config->get('config_arabic_address');
+		}
+		if (isset($this->request->post['config_arabic_email'])) {
+			$data['config_arabic_email'] = $this->request->post['config_arabic_email'];
+		} else {
+			$data['config_arabic_email'] = $this->config->get('config_arabic_email');
+		}
+
+				]]></add>
+		</operation>
+	</file>
+	<file name="admin/view/template/setting/setting.twig">
+		<operation error="skip">
+			<search position="after"><![CDATA[<li><a href="#tab-server" data-toggle="tab">{{ tab_server }}</a></li>]]></search>
+			<add><![CDATA[
+				<li><a href="#tab-social" data-toggle="tab">{{ tab_social }}</a></li>
+				]]></add>
+		</operation>
+	</file>
+	<file name="admin/view/template/setting/setting.twig">
+		<operation error="skip">
+			<search position="after"><![CDATA[<div class="tab-content">]]></search>
+			<add><![CDATA[
+				<div class="tab-pane" id="tab-social">
+              <fieldset>
+                <legend>{{ entry_social_links }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_facebook }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_facebook" value="{{ facebook }}" placeholder="{{ entry_social_url }}" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_twitter }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_twitter" value="{{ twitter }}" placeholder="{{ entry_social_url }}" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_gplus }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_gplus" value="{{ gplus }}" placeholder="{{ entry_social_url }}" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_linkedin }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_linkedin" value="{{ linkedin }}" placeholder="{{ entry_social_url }}" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_pinterest }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_pinterest" value="{{ pinterest }}" placeholder="{{ entry_social_url }}" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_instagram }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_instagram" value="{{ instagram }}" placeholder="{{ entry_social_url }}" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_youtube }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_youtube" value="{{ youtube }}" placeholder="{{ entry_social_url }}" class="form-control" />
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+				]]></add>
+		</operation>
+		</file>
+		<file name="catalog/language/en-gb/common/footer.php">
+		<operation error="skip">
+ 		<search position="remove"><![CDATA[$_['text_powered']      = 'Powered By <a href="http://www.opencart.com">OpenCart</a><br /> %s &copy; %s';]]></search>
+			<add><![CDATA[
+				$_['text_powered']      = 'Designed By <a href="http://style.themesbin.com/">themesbin.com</a> &copy; %s';
+				]]></add>
+		</operation>
+		<operation error="skip">
+ 		<search position="after"><![CDATA[$_['text_newsletter']   = 'Newsletter';]]></search>
+			<add><![CDATA[
+				$_['text_facebook']   = 'Facebook';
+				$_['text_twitter']   = 'Twitter';
+				$_['text_googleplus']   = 'Google Plus';
+				$_['text_linkedin']   = 'LinkedIn';
+				$_['text_pinterest']   = 'Pinterest';
+				$_['text_instagram']   = 'Instagram';
+				$_['text_youtube']   = 'Youtube';
+				]]></add>
+		</operation>
+	</file>
+		<file name="catalog/controller/common/footer.php">
+		<operation error="skip">
+			<search position="before"><![CDATA[$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));]]></search>
+			<add><![CDATA[
+				$data['facebook'] = $this->config->get('config_facebook');
+				$data['twitter'] = $this->config->get('config_twitter');
+				$data['gplus'] = $this->config->get('config_gplus');
+				$data['linkedin'] = $this->config->get('config_linkedin');
+				$data['pinterest'] = $this->config->get('config_pinterest');
+				$data['instagram'] = $this->config->get('config_instagram');
+				$data['youtube'] = $this->config->get('config_youtube');
+				]]></add>
+		</operation>
+	</file>
+	<file name="admin/controller/localisation/language.php">
+		<operation error="skip">
+			<search position="before"><![CDATA[if (isset($this->error['locale'])) {]]></search>
+			<add><![CDATA[
+		if (isset($this->error['image'])) {
+			$data['error_image'] = $this->error['image'];
+		} else {
+			$data['error_image'] = '';
+		}
+
+		if (isset($this->error['directory'])) {
+			$data['error_directory'] = $this->error['directory'];
+		} else {
+			$data['error_directory'] = '';
+		}
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/controller/localisation/language.php">
+		<operation error="skip">
+			<search position="before"><![CDATA[$data['languages'] = array();]]></search>
+			<add><![CDATA[
+		if (isset($this->request->post['image'])) {
+			$data['image'] = $this->request->post['image'];
+		} elseif (!empty($language_info)) {
+			$data['image'] = $language_info['image'];
+		} else {
+			$data['image'] = '';
+		}
+
+		if (isset($this->request->post['directory'])) {
+			$data['directory'] = $this->request->post['directory'];
+		} elseif (!empty($language_info)) {
+			$data['directory'] = $language_info['directory'];
+		} else {
+			$data['directory'] = '';
+		}
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/controller/localisation/language.php">
+		<operation error="skip">
+			<search position="before"><![CDATA[if (!$this->request->post['locale']) {]]></search>
+			<add><![CDATA[
+		if (utf8_strlen($this->request->post['image']) < 2) {
+			$this->error['image'] = $this->language->get('error_image');
+		}
+
+		if (utf8_strlen($this->request->post['directory']) < 2) {
+			$this->error['directory'] = $this->language->get('error_directory');
+		}
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/controller/localisation/language.php">
+		<operation error="skip">
+			<search position="replace" offset="10"><![CDATA[$language_info = $this->model_localisation_language->getLanguageByCode($this->request->post['code']);]]></search>
+			<add></add>
+		</operation>
+	</file>
+
+	<file name="admin/language/en-gb/localisation/language.php">
+		<operation error="skip">
+			<search position="after"><![CDATA[$_['column_code']       = 'Code';]]></search>
+			<add><![CDATA[
+		$_['column_image']       = 'Image';
+$_['column_directory']       = 'Directory';
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/language/en-gb/localisation/language.php">
+		<operation error="skip">
+			<search position="after"><![CDATA[$_['entry_locale']      = 'Locale';]]></search>
+			<add><![CDATA[
+		$_['entry_image']      = 'Image';
+$_['entry_directory']      = 'Directory';
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/language/en-gb/localisation/language.php">
+		<operation error="skip">
+			<search position="after"><![CDATA[$_['error_code']        = 'Language Code must at least 2 characters!';]]></search>
+			<add><![CDATA[
+		$_['error_image']        = 'Language image must at least 2 characters!';
+$_['error_directory']        = 'Language directory must at least 2 characters!';
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/model/localisation/language.php">
+		<operation error="skip">
+			<search position="replace"><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "language SET name = '" . $this->db->escape($data['name']) . "', code = '" . $this->db->escape($data['code']) . "', locale = '" . $this->db->escape($data['locale']) . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "'");]]></search>
+			<add><![CDATA[
+		$this->db->query("INSERT INTO " . DB_PREFIX . "language SET name = '" . $this->db->escape($data['name']) . "', code = '" . $this->db->escape($data['code']) . "', image = '" . $this->db->escape($data['image']) . "', directory = '" . $this->db->escape($data['directory']) . "', locale = '" . $this->db->escape($data['locale']) . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "'");
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/model/localisation/language.php">
+		<operation error="skip">
+			<search position="replace"><![CDATA[$this->db->query("UPDATE " . DB_PREFIX . "language SET name = '" . $this->db->escape($data['name']) . "', code = '" . $this->db->escape($data['code']) . "', locale = '" . $this->db->escape($data['locale']) . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "' WHERE language_id = '" . (int)$language_id . "'");]]></search>
+			<add><![CDATA[
+		$this->db->query("UPDATE " . DB_PREFIX . "language SET name = '" . $this->db->escape($data['name']) . "', code = '" . $this->db->escape($data['code']) . "', image = '" . $this->db->escape($data['image']) . "', directory = '" . $this->db->escape($data['directory']) . "', locale = '" . $this->db->escape($data['locale']) . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "' WHERE language_id = '" . (int)$language_id . "'");
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/view/template/localisation/language_form.twig">
+		<operation error="skip">
+			<search position="after" offset="3"><![CDATA[<div class="text-danger">{{ error_locale }}</div>]]></search>
+			<add><![CDATA[
+		<div class="form-group required">
+            <label class="col-sm-2 control-label required" for="input-image"><span data-toggle="tooltip" title="{{ help_image }}">{{ entry_image }}</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="image" value="{{ image }}" placeholder="{{ entry_image }}" id="input-image" class="form-control" />
+              {% if error_image %}
+              <div class="text-danger">{{ error_image }}</div>
+             {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label required" for="input-directory"><span data-toggle="tooltip" title="{{ help_directory }}">{{ entry_directory }}</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="directory" value="{{ directory }}" placeholder="{{ entry_directory }}" id="input-directory" class="form-control" />
+              {% if error_directory %}
+              <div class="text-danger">{{ error_directory }}</div>
+             {% endif %}
+            </div>
+          </div>
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/view/template/localisation/language_form.twig">
+		<operation error="skip">
+			<search position="remove" offset="8"><![CDATA[<select name="code" id="input-code" class="form-control">]]></search>
+			<add></add>
+		</operation>
+	</file>
+	<file name="admin/view/template/localisation/language_form.twig">
+		<operation error="skip">
+			<search position="before"><![CDATA[{% if error_code %}]]></search>
+			<add><![CDATA[
+				<input type="text" name="code" value="{{ code }}" placeholder="{{ entry_code }}" id="input-code" class="form-control" />
+		]]></add>
+		</operation>
+	</file>
+</modification>

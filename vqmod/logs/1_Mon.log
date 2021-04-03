@@ -1,0 +1,17 @@
+---------- Date: 2018-10-22 07:47:07 ~ IP : ::1 ----------
+REQUEST URI : /opencart-3.0.2.0/
+MOD DETAILS:
+   modFile   : C:\wamp\www\opencart-3.0.2.0\vqmod/xml/vqmod_stylo_theme.xml
+   id        : VQMOD CORE FOR OPENCART - DO NOT REMOVE
+   version   : 1.4.x and above
+   vqmver    : 2.6.0
+   author    : vqmod.com
+VQModObject::parseMods - Could not resolve path for [admin/language/english/english.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/language/english/setting/setting.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/setting/setting.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/setting/setting.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [catalog/language/english/common/footer.php] (SKIPPED)
+
+----------------------------------------------------------------------
+
+

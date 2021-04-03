@@ -1,0 +1,395 @@
+<section class="grp-tab">
+  <div id="tabs-{{ module }}" class="htabs clearfix">
+  {% if featured_products  or  bestseller_products  or  latest_products  or  special_products %}
+    <div class="heading_obj text-center col-xs-12">
+      <h2><span class="left"></span>{{heading_title}}<span class="right"></span></h2>
+      <div class="obj col-sm-offset-3 col-sm-6 col-xs-12">
+        <span><img src="image/custom/head.png" alt="head" /></span>
+      </div>
+    </div>
+  <ul class="nav nav-tabs list-unstyled text-center clearfix col-xs-12">
+  {% if featured_products %}
+    <li class="">
+    <a href="#tab-featured-{{ module }}" data-toggle="tab" class="selected"><h4>{{ tab_featured }}</h4></a></li>
+    {% endif %}
+    
+    {% if bestseller_products %}
+    <li>
+    <a href="#tab-bestseller-{{ module }}" data-toggle="tab"><h4>{{ tab_bestseller }}</h4></a></li>
+    {% endif %}
+    
+    {% if latest_products %}
+    <li>
+    <a href="#tab-latest-{{ module }}" data-toggle="tab"><h4>{{ tab_latest }}</h4></a></li>
+    {% endif %}
+    
+    {% if special_products %}
+    <li>
+    <a href="#tab-special-{{ module }}" data-toggle="tab"><h4>{{ tab_special }}</h4></a></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+ </div>
+ 
+ 
+ <div class="tab-content home-h-tabs clearfix">
+{% if latest_products %}
+ <div id="tab-latest-{{ module }}" class="tab-content product_carousel">
+    <div id="hor_latest" class="box-content ltst cmn-slide product_carousel owl-carousel">
+      {% for product in latest_products %}       
+      <div class="product-block product-col">
+          <div class="product-thumb transition">
+
+            <div class="image">
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+            </div>
+            <div class="caption">
+              <div class="product-meta">
+                <div class="product-meta-inner">
+
+
+                  <div class="left">
+                    <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                    <hr/>
+                    <div class="hidden rating">
+                      {% for i in 1..5 %}
+                      {% if product.rating < i %}
+                      <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                      {% else %}
+                      <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                      {% endif %}
+                      {% endfor %}
+                    </div>        
+              {% if product.price %}
+              <p class="price pull-left">
+                {% if not product.special %}
+                {{ product.price }}
+                {% else %}
+                <span class="price-new">{{ product.special }}</span>
+                <span class="price-old">{{ product.price }}</span>
+                {% endif %}
+                 {% if product.tax %}
+          <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+          {% endif %}
+              </p>
+               {% endif %}
+              <div class="cart-add pull-right">
+                <button type="button" class="btn" data-toggle="tooltip" title="{{ button_cart }}" onclick="cart.add('{{ product.product_id }}');"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp;<!-- {{ button_cart }} --></button>
+              </div>
+              </div>
+      
+
+            <div class="button-group">              
+              <button type="button" class="btn btn-outline-inverse wishlist" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+              <button type="button" class="btn btn-outline-inverse compare" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>         
+            </div>
+
+            </div>
+          </div>
+        </div>
+
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+ </div> {% endif %}
+
+{% if featured_products %}
+  <div id="tab-featured-{{ module }}" class="tab-content product_carousel">
+    <div id="hor_featured" class="box-content product_carousel owl-carousel">
+      {% for product in featured_products %}
+        <div class="product-block product-col">
+          <div class="product-thumb transition">
+
+            <div class="image">
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+            </div>
+
+            <div class="caption">
+              <div class="product-meta">
+                <div class="product-meta-inner">
+                  <div class="left">
+                    <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                    <hr/>
+                     {# {% if product.rating %} #}
+                      <div class="hidden rating">
+                        {% for i in 1..5 %}
+                        {% if product.rating < i %}
+                        <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        {% else %}
+                        <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        {% endif %}
+                        {% endfor %}
+                      </div>
+                      {# {% endif %} #}
+                   
+                      {% if product.price %}
+                      <p class="price pull-left">
+                        {% if not product.special %}
+                        {{ product.price }}
+                        {% else %}
+                        <span class="price-new">{{ product.special }}</span>
+                        <span class="price-old">{{ product.price }}</span>
+                        {% endif %}
+                         {% if product.tax %}
+          <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+          {% endif %}
+                      </p>
+                      {% endif %}
+                      <div class="cart-add pull-right">
+                        <button type="button" class="btn" data-toggle="tooltip" title="{{ button_cart }}" onclick="cart.add('{{ product.product_id }}');"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp;<!-- {{ button_cart }} --></button>
+                      </div>
+                      <!-- </div> -->
+                    </div>
+                    <div class="button-group">              
+                      <button type="button" class="btn btn-outline-inverse wishlist" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+                      <button type="button" class="btn btn-outline-inverse compare" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+                     
+                    </div>
+              </div>
+            </div>
+          </div><!-- caption -->
+        </div>
+      </div>
+        {% endfor %}
+
+    </div>
+ </div>
+{% endif %}
+
+{% if bestseller_products %}
+ <div id="tab-bestseller-{{ module }}" class="tab-content product_carousel">
+    <div id="hor_bestseller" class="box-content product_carousel owl-carousel">
+      {% for product in bestseller_products %}
+        <div class="product-block product-col">
+          <div class="product-thumb transition">
+
+            <div class="image">
+              <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+            </div>
+
+            <div class="caption">
+              <div class="product-meta">
+                <div class="product-meta-inner">
+                  <div class="left">
+                    <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                    <hr/>
+                     {# {% if product.rating %} #}
+                      <div class="hidden rating">
+                        {% for i in 1..5 %}
+                        {% if product.rating < i %}
+                        <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        {% else %}
+                        <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        {% endif %}
+                        {% endfor %}
+                      </div>
+                      {# {% endif %} #}            
+                    
+                        {% if product.price %}
+                        <p class="price pull-left">
+                          {% if not product.special %}
+                          {{ product.price }}
+                          {% else %}
+                          <span class="price-new">{{ product.special }}</span>
+                          <span class="price-old">{{ product.price }}</span>
+                          {% endif %}
+                           {% if product.tax %}
+          <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+          {% endif %}
+                        </p>
+                         {% endif %}
+                        <div class="cart-add pull-right">
+                          <button type="button" class="btn" data-toggle="tooltip" title="{{ button_cart }}" onclick="cart.add('{{ product.product_id }}');"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp;<!-- {{ button_cart }} --></button>
+                        </div>
+                    </div>           
+                    <div class="button-group">                      
+                      <button type="button" class="btn btn-outline-inverse wishlist" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+                      <button type="button" class="btn btn-outline-inverse compare" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+                     
+                    </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+        {% endfor %}
+
+    </div>
+ </div>
+{% endif %}
+
+{% if special_products %}
+ <div id="tab-special-{{ module }}" class="tab-content product_carousel">
+    <div id="hor_special" class="box-content product_carousel owl-carousel">
+      {% for product in special_products %}
+      <div class="product-block product-col">
+          <div class="product-thumb transition">
+
+            <div class="image">
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+            </div>
+            <div class="caption">
+              <div class="product-meta">
+                <div class="product-meta-inner">
+                  <div class="left">
+                    <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                    <hr>
+                     {# {% if product.rating %} #}
+                      <div class="hidden rating">
+                        {% for i in 1..5 %}
+                        {% if product.rating < i %}
+                        <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        {% else %}
+                        <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        {% endif %}
+                        {% endfor %}
+                      </div>
+                      {# {% endif %} #}           
+                    
+                        {% if product.price %}
+                        <p class="price pull-left">
+                          {% if not product.special %}
+                          {{ product.price }}
+                          {% else %}
+                          <span class="price-new">{{ product.special }}</span>
+                          <span class="price-old">{{ product.price }}</span>
+                          {% endif %}
+                           {% if product.tax %}
+          <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+          {% endif %}
+                        </p>
+                       {% endif %}
+                      <div class="cart-add pull-right">
+                        <button type="button" class="btn" data-toggle="tooltip" title="{{ button_cart }}" onclick="cart.add('{{ product.product_id }}');"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp;<!-- {{ button_cart }} --></button>
+                      </div>
+                  </div>           
+                  <div class="button-group">                    
+                    <button type="button" class="btn btn-outline-inverse wishlist" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+                    <button type="button" class="btn btn-outline-inverse compare" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>                  
+                  </div>
+            </div>
+          </div>
+        </div>
+       </div>
+      </div>
+        {% endfor %}
+
+    
+    </div>
+ </div>
+{% endif %}
+</div>
+</section>
+<div class="modal" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content modal-content-product-view">
+  <div class="chage-close">
+    <button type="button" class="close are-chage" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>       
+  </div>
+      <div class="modal-body"></div>    
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" >
+$( document ).ready(function() {
+  var latest= $('#hor_latest');
+  var amountHeaderImages = latest.find('img').length;
+  latest.owlCarousel({
+    // loop:true,
+    nav:true,
+    margin:15,
+    responsiveClass:true,
+    responsive:{
+        0:{
+            items:1,
+            loop: (amountHeaderImages > 1), // if only 1 item no loop
+        },
+        600:{
+            items:3,
+            loop: (amountHeaderImages > 3), // if only 1 item no loop
+        },
+        1000:{
+            items:4,
+            loop: (amountHeaderImages > 4),// if only 1 item no loop
+        }
+    }
+});
+  var featured= $('#hor_featured');
+  var amountHeaderImages = featured.find('img').length;
+  featured.owlCarousel({
+    // loop:true,
+    nav:true,
+    margin:15,
+    responsiveClass:true,
+    responsive:{
+        0:{
+            items:1,
+            loop: (amountHeaderImages > 1), // if only 1 item no loop
+        },
+        600:{
+            items:3,
+            loop: (amountHeaderImages > 3), // if only 1 item no loop
+        },
+        1000:{
+            items:4,
+            loop: (amountHeaderImages > 4),// if only 1 item no loop
+        }
+    }
+});
+  var special= $('#hor_special');
+  var amountHeaderImages = special.find('img').length;
+  special.owlCarousel({
+    // loop:true,
+    nav:true,
+    margin:15,
+    responsiveClass:true,
+    responsive:{
+        0:{
+            items:1,
+            loop: (amountHeaderImages > 1), // if only 1 item no loop
+        },
+        600:{
+            items:3,
+            loop: (amountHeaderImages > 3), // if only 1 item no loop
+        },
+        1000:{
+            items:4,
+            loop: (amountHeaderImages > 4),// if only 1 item no loop
+        }
+    }
+});
+  var bestseller= $('#hor_bestseller');
+  var amountHeaderImages = bestseller.find('img').length;
+  bestseller.owlCarousel({
+    // loop:true,
+    nav:true,
+    margin:15,
+    responsiveClass:true,
+    responsive:{
+        0:{
+            items:1,
+            loop: (amountHeaderImages > 1), // if only 1 item no loop
+        },
+        600:{
+            items:3,
+            loop: (amountHeaderImages > 3), // if only 1 item no loop
+        },
+        1000:{
+            items:4,
+            loop: (amountHeaderImages > 4),// if only 1 item no loop
+        }
+    }
+});
+
+});
+  $("#productModal").on("show.bs.modal", function(e) {
+    var link = $(e.relatedTarget); 
+    $(this).find(".modal-body").load(link.attr("href"));
+  });
+</script>
+
+<script>
+$('#tabs-{{ module }} a').tabs();
+</script> 

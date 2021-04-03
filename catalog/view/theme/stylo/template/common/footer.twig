@@ -1,0 +1,62 @@
+<footer>
+  <div class="container">
+    <div class="row">
+      {% if informations %}
+      <div class="col-sm-3 col-xs-12">
+        <h5>{{ text_information }}</h5>
+        <ul class="list-unstyled">
+         {% for information in informations %}
+          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+          {% endfor %}
+        </ul>
+        <ul class="list-unstyled social-medias pull-left clearfix">
+          <li class="fb"><a href="{{facebook}}" target="_blank" title="{{text_facebook}}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+          <li class="twtr"><a href="{{twitter}}" target="_blank" title="{{text_twitter}}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+          <li class="gp"><a href="{{gplus}}" target="_blank" title="{{text_googleplus}}"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+          <li class="lnkdin"><a href="{{linkedin}}" target="_blank" title="{{text_linkedin}}"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+          <li class="pinterest"><a href="{{pinterest}}" target="_blank" title="{{text_pinterest}}"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+          <li class="instagrm"><a href="{{instagram}}" target="_blank" title="{{text_instagram}}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+          <li class="utub"><a href="{{youtube}}" target="_blank" title="{{text_youtube}}"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+        </ul>
+      </div>
+      {% endif %}
+      <div class="col-sm-3 col-xs-12">
+        <h5>{{ text_service }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3 col-xs-12">
+        <h5>{{ text_extra }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+          <li><a href="{{ special }}">{{ text_special }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3 col-xs-12">
+        <h5>{{ text_account }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <p class="pull-left">{{ powered }}</p>
+    <p class="pull-right"><a href="#"><img src="image/custom/payment.png" width="250" /></a></p>
+  </div>
+</footer>
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+<!--
+OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
+Please donate via PayPal to donate@opencart.com
+//-->
+</body></html>
